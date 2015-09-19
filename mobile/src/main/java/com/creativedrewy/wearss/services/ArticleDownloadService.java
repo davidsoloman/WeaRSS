@@ -6,8 +6,15 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import net.htmlparser.jericho.Element;
+import net.htmlparser.jericho.HTMLElementName;
+import net.htmlparser.jericho.OutputDocument;
 import net.htmlparser.jericho.Renderer;
 import net.htmlparser.jericho.Source;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import rx.Observable;
 
@@ -33,21 +40,46 @@ public class ArticleDownloadService {
                 @Override
                 public void onResponse(Response response) throws IOException {
                     String articleText = new String(response.body().bytes());
-
-                    Renderer renderer = new Source(articleText).getRenderer();
-                    renderer.setMaxLineLength(150);
-                    renderer.setIncludeHyperlinkURLs(false);
-                    renderer.setIncludeAlternateText(false);
-                    renderer.setHRLineLength(8);
-                    renderer.setListIndentSize(0);
-
-                    String trimmedArticle = renderer.toString();
-                    headline.setArticleText(trimmedArticle);
+                    headline.setArticleText(generateArticlePlainText(articleText));
 
                     subscriber.onNext(true);
                     subscriber.onCompleted();
                 }
             });
         });
+    }
+
+    /**
+     * Return the plain text version of the full article text
+     */
+    private String generateArticlePlainText(String srcArticleMarkup) {
+        String cleanedMarkup = cleanArticleMarkup(srcArticleMarkup);
+
+        Renderer renderer = new Source(cleanedMarkup).getRenderer();
+        renderer.setMaxLineLength(150);
+        renderer.setIncludeHyperlinkURLs(false);
+        renderer.setIncludeAlternateText(false);
+        renderer.setHRLineLength(8);
+        renderer.setListIndentSize(0);
+
+        return renderer.toString();
+    }
+
+    /**
+     * Clean any unwanted elements from the source article markup
+     */
+    private String cleanArticleMarkup(String srcMarkup) {
+        Source sourceDom = new Source(srcMarkup);
+        OutputDocument outputDocument = new OutputDocument(sourceDom);
+        List<Element> allElements = sourceDom.getAllElements();
+
+        List<String> elementsToRemove = Arrays.asList(HTMLElementName.LI, HTMLElementName.OL, HTMLElementName.UL);
+        for (Element element : allElements) {
+            if (elementsToRemove.contains(element.getName())) {
+                outputDocument.remove(element);
+            }
+        }
+
+        return outputDocument.toString();
     }
 }

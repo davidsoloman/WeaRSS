@@ -33,14 +33,13 @@ import java.util.Map;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 /**
  * Service to refresh the feed headlines and send to the wearable
  */
 public class RefreshHeadlinesService extends WakefulIntentService
-        implements Action0, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     public static String COMPLETION_SUCCESS_EXTRA = "COMPLETION_SUCCESS_EXTRA";
 
     private Map<String, List<FeedItem>> mSyncedFeedData = new HashMap<String, List<FeedItem>>();
@@ -72,22 +71,9 @@ public class RefreshHeadlinesService extends WakefulIntentService
                             List<FeedItem> rssItemList = feed.getFeedItems();
                             mSyncedFeedData.put(feed.getTitle(), rssItemList);
                         }
-                    }, throwable -> { }, this);
-        }
-    }
-
-    /**
-     * Connect to an associated wearable
-     */
-    private void wearableConnect() {
-        mApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Wearable.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-
-        if (!mApiClient.isConnected()) {
-            mApiClient.connect();
+                    },
+                    throwable -> { },
+                    this::onAllFeedsLoaded);
         }
     }
 
@@ -108,14 +94,13 @@ public class RefreshHeadlinesService extends WakefulIntentService
     }
 
     /**
-     * The onComplete method for all the chained observables
+     * Called after all of the RSS feeds have been loaded
      * 1. Generate the list of headlines to send to the wearable
      * 2. Sort the list of headlines
      * 3. Serialize the headlines
      * 4. Send to the json string to the wearable
      */
-    @Override
-    public void call() {
+    public void onAllFeedsLoaded() {
         Intent finishIntent = new Intent(getString(R.string.action_local_sync_finished));
         finishIntent.putExtra(COMPLETION_SUCCESS_EXTRA, false);
 
@@ -133,16 +118,14 @@ public class RefreshHeadlinesService extends WakefulIntentService
                 }
 
                 Observable.merge(articleDL)
-                        .subscribe(status -> {
-                            Log.v("WeaRSS", "Going through each item!");
-                        }, throwable -> {
+                        .subscribe(status -> { }, throwable -> {
                             Log.v("WeaRSS", "Awww, error");
                             sendBroadcast(finishIntent);
                         }, () -> {
                             ArrayList<SendHeadline> result = sendHeadlines;
-                            Log.v("WeaRSS", "Done!");
 
                             String serializedItems = new Gson().toJson(sendHeadlines);
+                            Log.v("WeaRSS", "Your data length: " + serializedItems.length());
                             if (mApiClient.isConnected() && mConnectedNode != null) {
                                 PendingResult<MessageApi.SendMessageResult> msgResult = Wearable.MessageApi.sendMessage(mApiClient, mConnectedNode.getId(), "/feed", serializedItems.getBytes());
                                 finishIntent.putExtra(COMPLETION_SUCCESS_EXTRA, true);
@@ -185,6 +168,21 @@ public class RefreshHeadlinesService extends WakefulIntentService
         }
 
         return sendHeadlines;
+    }
+
+    /**
+     * Connect to an associated wearable
+     */
+    private void wearableConnect() {
+        mApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Wearable.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+
+        if (!mApiClient.isConnected()) {
+            mApiClient.connect();
+        }
     }
 
     /**

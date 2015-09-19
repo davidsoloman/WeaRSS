@@ -23,16 +23,15 @@
                 android:layout_width="match_parent"
                 android:fontFamily="sans-serif-light"
                 android:textColor="@color/black"
-                android:textSize="20sp"
-                android:text="This is a title" />
+                android:textSize="20sp" />
+
             <TextView
                 android:id="@+id/article_desc_textview"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:fontFamily="sans-serif-light"
                 android:textColor="@color/black"
-                android:textSize="14sp"
-                android:text="This is a description" />
+                android:textSize="14sp" />
         </LinearLayout>
 
     </android.support.wearable.view.CardFrame>
