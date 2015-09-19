@@ -35,6 +35,9 @@ public class SendHeadline extends SugarRecord<SendHeadline> {
     public Date getPostDate() { return mPostDate; }
     public void setPostDate(Date mPostDate) { this.mPostDate = mPostDate; }
 
+    public String getArticleText() { return mArticleText; }
+    public void setArticleText(String mArticleText) { this.mArticleText = mArticleText; }
+
     public boolean hasPubDate() { return mHasPubDate; }
     public void setHasPubDate(boolean hasPubDate) { mHasPubDate = hasPubDate; }
 
@@ -65,7 +68,7 @@ public class SendHeadline extends SugarRecord<SendHeadline> {
         if (mPostDate == null) {
             mHasPubDate = false;
 
-            //If not parseable, set the date to one year ago for comparison purposes - should push headline to back of list
+            //If not parcelable, set the date to one year ago for comparison purposes - should push headline to back of list
             Calendar cal = Calendar.getInstance();
             cal.setTimeInMillis(cal.getTimeInMillis() - 31556952000L);
             mPostDate = cal.getTime();
