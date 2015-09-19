@@ -2,7 +2,8 @@
 
 Your RSS News Feeds on Android Wear! Get news headlines pushed right to your wrist. Send to your phone to read later.
 
-Features Include:
+## Some of the Features:
+
 - Follow any number of RSS/Atom feeds.
 - Headlines and a brief description will get sent to your device - you'll see the most recent headlines first.
 - Choose how frequently headlines get synced.
@@ -10,8 +11,6 @@ Features Include:
 - Send articles to from your wearable to the "Read List" for reading the full article later.
 - Share to a specific app: send articles from the Read List to a specific app of your choosing like Pocket or Instapaper!
 - Skip the read list entirely: select your app and share articles to it right from your wearable!
-
-
 
 License
 --------
