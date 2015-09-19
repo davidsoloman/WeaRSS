@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="com.creativedrewy.wearss.fragments.FeedListingFragment">
+
+    <ListView
+        android:id="@+id/feedItemsDisplayView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#00FF0000"
+        android:background="@android:color/white" />
+
+    <TextView
+        android:id="@+id/noFeedsTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="You don't have any feeds!\n\nAdd feeds by tapping the '+' icon above.\n\nOr you can go to the settings to add some sample feeds."
+        android:textSize="17sp"
+        android:textColor="#777777"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
+</RelativeLayout>

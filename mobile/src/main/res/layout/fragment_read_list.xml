@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_all"
+        android:textColor="#555555"
+        android:id="@+id/selectAllCheckBox"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp" />
+
+    <View
+        android:id="@+id/readListTopBorderView"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/list_item_divider"
+        android:layout_below="@+id/selectAllCheckBox" />
+
+    <ListView
+        android:id="@+id/readListItemListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#00FF0000"
+        android:choiceMode="multipleChoice"
+        android:background="@android:color/white"
+        android:visibility="visible"
+        android:layout_below="@+id/readListTopBorderView" />
+
+    <TextView
+        android:id="@+id/noReadItemsTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/no_read_items_instruction"
+        android:textSize="17sp"
+        android:textColor="#777777"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp" />
+
+</RelativeLayout>

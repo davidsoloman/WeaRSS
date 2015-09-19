@@ -1,0 +1,58 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/feedUrlEditText"
+        android:hint="@string/paste_url_hint"
+        android:layout_below="@+id/feedUrlLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp"
+        android:singleLine="true"
+        android:layout_toLeftOf="@+id/clearTextImageView"
+        android:layout_toStartOf="@+id/clearTextImageView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Feed URL:"
+        android:id="@+id/feedUrlLabel"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/statusMessageTextView"
+        android:layout_below="@+id/feedUrlEditText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="6dp"
+        android:textStyle="italic"
+        android:textColor="#777777" />
+
+    <ImageView
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:id="@+id/clearTextImageView"
+        android:src="@drawable/ic_action_remove"
+        android:layout_alignTop="@+id/feedUrlEditText"
+        android:layout_alignRight="@+id/statusMessageTextView"
+        android:layout_alignEnd="@+id/statusMessageTextView"
+        android:layout_marginTop="5dp"
+        android:focusableInTouchMode="false" />
+
+</RelativeLayout>

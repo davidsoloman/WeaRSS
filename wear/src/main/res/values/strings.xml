@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WeaRSS</string>
+    <string name="hello_round">Hello Round World!</string>
+    <string name="hello_square">Hello Square World!</string>
+    <string name="setup_overview">Use the WeaRSS mobile app to setup your news sources. You\'ll get headlines pushed right to your wearable!</string>
+    <string name="updated_feed_notify_title">Your News</string>
+    <string name="updated_feed_notify_desc">Swipe to open your latest news headlines</string>
+    <string name="close_instructions">Long press anywhere to close WeaRSS.</string>
+    <string name="open_on_device">Read this later</string>
+    <string name="sent_to_device">Sent to mobile</string>
+</resources>

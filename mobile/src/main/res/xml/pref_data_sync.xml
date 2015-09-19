@@ -1,0 +1,56 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/pref_header_data_refresh">
+
+        <ListPreference
+            android:key="@string/key_prefs_refresh_frequency"
+            android:title="@string/pref_title_refresh_frequency"
+            android:entries="@array/pref_refresh_frequency_titles"
+            android:entryValues="@array/pref_refresh_frequency_values"
+            android:defaultValue="180"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null" />
+
+        <ListPreference
+            android:key="@string/key_prefs_headlines_count"
+            android:title="@string/pref_title_headlines_per_feed"
+            android:entries="@array/pref_headlines_per_feed_titles"
+            android:entryValues="@array/pref_headlines_per_feed_values"
+            android:defaultValue="5"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_header_read_list_article_selection">
+
+        <ListPreference
+            android:key="@string/key_prefs_read_item_tap"
+            android:title="@string/pref_title_readlist_tap_action"
+            android:entries="@array/pref_tap_on_read_item_options"
+            android:entryValues="@array/pref_tap_on_read_item_values"
+            android:defaultValue="0"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null" />
+
+        <CheckBoxPreference
+            android:key="@string/key_prefs_article_select_from_watch"
+            android:title="@string/save_articles_wearable_title"
+            android:summary="@string/save_directly_to_app_summary"
+            android:defaultValue="false"
+            android:enabled="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Info">
+
+        <PreferenceScreen
+            android:key="@string/key_prefs_sample_feeds"
+            android:title="@string/add_sample_feeds_title"
+            android:summary="@string/sample_feeds_description" />
+
+        <PreferenceScreen
+            android:key="@string/key_prefs_licenses"
+            android:title="@string/oss_licenses" />
+    </PreferenceCategory>
+</PreferenceScreen>
