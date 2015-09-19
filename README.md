@@ -12,10 +12,10 @@ Your RSS News Feeds on Android Wear! Get news headlines pushed right to your wri
 - Share to a specific app: send articles from the Read List to a specific app of your choosing like Pocket or Instapaper!
 - Skip the read list entirely: select your app and share articles to it right from your wearable!
 
-<img src="readme/wear_screenshot_1.png" width="20%" />
-<img src="readme/wear_screenshot_2.png" width="20%" />
-<img src="readme/app_screenshot_1.png" width="20%" />
-<img src="readme/app_screenshot_2.png" width="20%" />
+<img src="readme/wear_screenshot_1.png" width="23%" />
+<img src="readme/wear_screenshot_2.png" width="23%" />
+<img src="readme/app_screenshot_1.png" width="23%" />
+<img src="readme/app_screenshot_2.png" width="23%" />
 
 ## Download
 
@@ -23,12 +23,13 @@ You can get the latest version on <a href="https://play.google.com/store/apps/de
 
 ## Building
 
-1. Clone this Repo
-2. In the same parent directory where you cloned WeaRSS, clone my fork of [Riasel](https://github.com/creativedrewy/Riasel). See the example directory listing just below.
-3. Open the build.gradle for WeaRSS in Android Studio.
-4. Have fun!
+1. Make sure you have Java 8 installed (for [gradle-retrolambda](https://github.com/evant/gradle-retrolambda) support).
+2. Clone this Repo.
+3. In the same parent directory where you cloned WeaRSS, clone my fork of [Riasel](https://github.com/creativedrewy/Riasel). See the example directory listing just below.
+4. Open the build.gradle for WeaRSS in Android Studio.
+5. Have fun!
 
-```
+```bash
 :: A directory listing in the parent directory ::
 
 WeaRSS/ - Git created this directory on clone; all repo files in here
@@ -37,7 +38,7 @@ Riasel/ - Same for Riasel
 
 ## Contributing
 
-There's lots of possible features to implement, and I'd love the community's help!
+There's lots of potential features to implement, and I'd love the community's help!
 
 License
 --------
