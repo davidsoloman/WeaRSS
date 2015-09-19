@@ -1,6 +1,38 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<android.support.wearable.view.CardScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_scroll_view"
     android:layout_height="match_parent"
-    android:background="#22FF0000">
+    android:layout_width="match_parent"
+    app:layout_box="bottom">
 
-</FrameLayout>
+    <android.support.wearable.view.CardFrame
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent">
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="5dp">
+
+            <TextView
+                android:id="@+id/article_title_textview"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:fontFamily="sans-serif-light"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:text="This is a title" />
+            <TextView
+                android:id="@+id/article_desc_textview"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:fontFamily="sans-serif-light"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:text="This is a description" />
+        </LinearLayout>
+
+    </android.support.wearable.view.CardFrame>
+</android.support.wearable.view.CardScrollView>
