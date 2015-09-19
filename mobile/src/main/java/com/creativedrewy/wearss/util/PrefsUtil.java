@@ -25,8 +25,7 @@ public class PrefsUtil {
      */
     public static boolean getLoadFullArticle(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        return true;
+        return prefs.getBoolean(context.getString(R.string.key_prefs_read_full_articles), false);
     }
 
 }

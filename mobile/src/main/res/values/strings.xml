@@ -44,6 +44,8 @@
     <string name="select_all">Select All</string>
     <string name="select_none">Deselect All</string>
     <string name="no_read_items_instruction">Add articles to the Read List from your Android Wear device.</string>
+    <string name="key_prefs_read_full_articles">key_prefs_read_full_articles</string>
+    <string name="pref_title_read_full_article">Read full articles on wearable</string>
     <string name="choose_app_dialog_title">Choose App</string>
     <string name="share_to_title">Share to...</string>
     <string name="key_stored_specific_share_app">key_stored_specific_share_app</string>

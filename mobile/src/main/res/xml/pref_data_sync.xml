@@ -19,6 +19,11 @@
             android:defaultValue="5"
             android:negativeButtonText="@null"
             android:positiveButtonText="@null" />
+
+        <CheckBoxPreference
+            android:key="@string/key_prefs_read_full_articles"
+            android:title="@string/pref_title_read_full_article"
+            android:defaultValue="false" />
     </PreferenceCategory>
 
     <PreferenceCategory
