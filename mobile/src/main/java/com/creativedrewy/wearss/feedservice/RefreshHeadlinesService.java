@@ -1,9 +1,7 @@
 package com.creativedrewy.wearss.feedservice;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.axelby.riasel.Feed;
@@ -12,6 +10,7 @@ import com.commonsware.cwac.wakeful.WakefulIntentService;
 import com.creativedrewy.wearss.R;
 import com.creativedrewy.wearss.models.WearFeedEntry;
 import com.creativedrewy.wearss.services.ArticleDownloadService;
+import com.creativedrewy.wearss.util.PrefsUtil;
 import com.creativedrewy.wearss.wearable.SendHeadline;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -97,27 +96,25 @@ public class RefreshHeadlinesService extends WakefulIntentService
      * Called after all of the RSS feeds have been loaded
      * 1. Generate the list of headlines to send to the wearable
      * 2. Sort the list of headlines
+     * 3. If user wants full article, get relevant article plain text
+     * 4. On finish, or if not full article text, finish the send headline operation
      */
     public void onAllFeedsLoaded() {
         try {
             ArrayList<SendHeadline> sendHeadlines = generateSendHeadlines();
-            if (sendHeadlines.size() > 0) {
-                Collections.sort(sendHeadlines, new SendHeadlineComparator());
+            if (sendHeadlines.size() <= 0) return;
 
-                //1. Load prefs regarding full articles
-                //2. If no full article, just move on
-                //3. If full article, insert observable into process
+            Collections.sort(sendHeadlines, new SendHeadlineComparator());
 
-                if (true) {
-                    sendHeadlinesWearableAndFinish(sendHeadlines);
-                } else {
-                    generateArticleLoadRx(sendHeadlines)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(status -> { },
-                                    throwable -> sendHeadlinesWearableAndFinish(null),
-                                    () ->  sendHeadlinesWearableAndFinish(sendHeadlines));
-                }
+            if (PrefsUtil.getLoadFullArticle(this)) {
+                generateArticleLoadRx(sendHeadlines)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(status -> { },
+                                throwable -> sendHeadlinesWearableAndFinish(null),
+                                () ->  sendHeadlinesWearableAndFinish(sendHeadlines));
+            } else {
+                sendHeadlinesWearableAndFinish(sendHeadlines);
             }
         } catch (Exception e) {
             Log.e(getString(R.string.app_name), "::: General error during headline sync :::", e);
@@ -130,22 +127,20 @@ public class RefreshHeadlinesService extends WakefulIntentService
     private ArrayList<SendHeadline> generateSendHeadlines() {
         ArrayList<SendHeadline> sendHeadlines = new ArrayList<SendHeadline>();
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String countStr = prefs.getString(getString(R.string.key_prefs_headlines_count), "5");
-        int headlineCount = Integer.parseInt(countStr);
-
         for (String sourceHostKey : mSyncedFeedData.keySet()) {
             List<FeedItem> rssItems = mSyncedFeedData.get(sourceHostKey);
 
             try {
                 Collections.sort(rssItems, new FeedItemDateComparator());
+
+                int headlineCount = PrefsUtil.getHeadlineSyncCount(this);
                 int sublistSize = rssItems.size() >= headlineCount ? headlineCount : rssItems.size();
                 rssItems = rssItems.subList(0, sublistSize);
 
                 for (FeedItem feedItem : rssItems) {
                     String title = Jsoup.parse(feedItem.getTitle()).text();
                     String rawText = feedItem.getDescription() != null ? Jsoup.parse(feedItem.getDescription()).text() : "";
-                    sendHeadlines.add(new SendHeadline(title, sourceHostKey, feedItem.getPublicationDate(), rawText, feedItem.getLink().toString()));
+                    sendHeadlines.add(new SendHeadline(title, sourceHostKey, feedItem.getPublicationDate(), rawText, feedItem.getLink()));
                 }
             } catch (Exception ex) {
                 Log.e(getString(R.string.app_name), "::: Error generating one set of headlines :::", ex);
