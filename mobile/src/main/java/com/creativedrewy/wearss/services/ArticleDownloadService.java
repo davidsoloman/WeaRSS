@@ -40,7 +40,12 @@ public class ArticleDownloadService {
                 @Override
                 public void onResponse(Response response) throws IOException {
                     String articleText = new String(response.body().bytes());
-                    headline.setArticleText(generateArticlePlainText(articleText));
+
+                    String plainText = generateArticlePlainText(articleText);
+                    plainText = plainText.replace("\n\n\n\n", "\n");
+                    plainText = plainText.replace("\n\n\n", "\n");
+                    plainText = plainText.replace("\n\n", "\n");
+                    headline.setArticleText(plainText);
 
                     subscriber.onNext(true);
                     subscriber.onCompleted();

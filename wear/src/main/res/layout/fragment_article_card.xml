@@ -22,13 +22,14 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:fontFamily="sans-serif-light"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textColor="#999999"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/article_desc_textview"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_marginTop="4dp"
                 android:fontFamily="sans-serif-light"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
