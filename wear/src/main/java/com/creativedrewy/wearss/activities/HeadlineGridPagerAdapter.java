@@ -65,11 +65,6 @@ public class HeadlineGridPagerAdapter extends FragmentGridPagerAdapter {
             String timeFromNow = currentHeadline.hasPubDate() ? new PrettyTime().format(currentHeadline.getPostDate()) : "No publish date";
             String headlineWithDate = String.format("-- %s --\n%s\n\n%s", timeFromNow, currentHeadline.getHeadline(), currentHeadline.getArticleText());
 
-//            returnFragment = CardFragment.create(currentHeadline.getSourceHost(), headlineWithDate);
-//            ((CardFragment)returnFragment).setCardGravity(Gravity.BOTTOM);
-//            ((CardFragment)returnFragment).setExpansionEnabled(true);
-//            ((CardFragment)returnFragment).setExpansionFactor(250);
-//            ((CardFragment)returnFragment).setExpansionDirection(CardFragment.EXPAND_DOWN);
             returnFragment = ArticleCardFragment.newInstance(currentHeadline.getSourceHost(), headlineWithDate);
         } else if (row == 1) {
             returnFragment = OpenOnPhoneFragment.newInstance(mHeadlines.get(col));

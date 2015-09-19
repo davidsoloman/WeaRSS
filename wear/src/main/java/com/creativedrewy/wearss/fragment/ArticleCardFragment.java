@@ -35,7 +35,7 @@ public class ArticleCardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_article_card, container, false);
 
         CardFrame frame = (CardFrame) view.findViewById(R.id.main_frame);
-        frame.setExpansionFactor(200);
+        frame.setExpansionFactor(250);
 
         TextView titleTextView = (TextView) view.findViewById(R.id.article_title_textview);
         TextView descTextView = (TextView) view.findViewById(R.id.article_desc_textview);

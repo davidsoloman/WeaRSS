@@ -97,42 +97,27 @@ public class RefreshHeadlinesService extends WakefulIntentService
      * Called after all of the RSS feeds have been loaded
      * 1. Generate the list of headlines to send to the wearable
      * 2. Sort the list of headlines
-     * 3. Serialize the headlines
-     * 4. Send to the json string to the wearable
      */
     public void onAllFeedsLoaded() {
-        Intent finishIntent = new Intent(getString(R.string.action_local_sync_finished));
-        finishIntent.putExtra(COMPLETION_SUCCESS_EXTRA, false);
-
         try {
             ArrayList<SendHeadline> sendHeadlines = generateSendHeadlines();
             if (sendHeadlines.size() > 0) {
                 Collections.sort(sendHeadlines, new SendHeadlineComparator());
 
-                //TODO: Come back and refactor this to make it not so bulky and long
-                ArticleDownloadService downloader = new ArticleDownloadService();
-                ArrayList<Observable<Boolean>> articleDL = new ArrayList<>();
+                //1. Load prefs regarding full articles
+                //2. If no full article, just move on
+                //3. If full article, insert observable into process
 
-                for (final SendHeadline headline : sendHeadlines) {
-                    articleDL.add(downloader.downloadAndTrimArticle(headline));
+                if (true) {
+                    sendHeadlinesWearableAndFinish(sendHeadlines);
+                } else {
+                    generateArticleLoadRx(sendHeadlines)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(status -> { },
+                                    throwable -> sendHeadlinesWearableAndFinish(null),
+                                    () ->  sendHeadlinesWearableAndFinish(sendHeadlines));
                 }
-
-                Observable.merge(articleDL)
-                        .subscribe(status -> { }, throwable -> {
-                            Log.v("WeaRSS", "Awww, error");
-                            sendBroadcast(finishIntent);
-                        }, () -> {
-                            ArrayList<SendHeadline> result = sendHeadlines;
-
-                            String serializedItems = new Gson().toJson(sendHeadlines);
-                            Log.v("WeaRSS", "Your data length: " + serializedItems.length());
-                            if (mApiClient.isConnected() && mConnectedNode != null) {
-                                PendingResult<MessageApi.SendMessageResult> msgResult = Wearable.MessageApi.sendMessage(mApiClient, mConnectedNode.getId(), "/feed", serializedItems.getBytes());
-                                finishIntent.putExtra(COMPLETION_SUCCESS_EXTRA, true);
-                            }
-
-                            sendBroadcast(finishIntent);
-                        });
             }
         } catch (Exception e) {
             Log.e(getString(R.string.app_name), "::: General error during headline sync :::", e);
@@ -160,7 +145,7 @@ public class RefreshHeadlinesService extends WakefulIntentService
                 for (FeedItem feedItem : rssItems) {
                     String title = Jsoup.parse(feedItem.getTitle()).text();
                     String rawText = feedItem.getDescription() != null ? Jsoup.parse(feedItem.getDescription()).text() : "";
-                    sendHeadlines.add(new SendHeadline(feedItem.getTitle(), sourceHostKey, feedItem.getPublicationDate(), rawText, feedItem.getLink().toString()));
+                    sendHeadlines.add(new SendHeadline(title, sourceHostKey, feedItem.getPublicationDate(), rawText, feedItem.getLink().toString()));
                 }
             } catch (Exception ex) {
                 Log.e(getString(R.string.app_name), "::: Error generating one set of headlines :::", ex);
@@ -168,6 +153,37 @@ public class RefreshHeadlinesService extends WakefulIntentService
         }
 
         return sendHeadlines;
+    }
+
+    /**
+     * Generate the Observable that aggregates loading all relevant feed article plain text
+     */
+    private Observable<Boolean> generateArticleLoadRx(ArrayList<SendHeadline> sendHeadlines) {
+        ArticleDownloadService downloader = new ArticleDownloadService();
+        ArrayList<Observable<Boolean>> articleDL = new ArrayList<>();
+
+        for (final SendHeadline headline : sendHeadlines) {
+            articleDL.add(downloader.downloadAndTrimArticle(headline));
+        }
+
+        return Observable.merge(articleDL);
+    }
+
+    /**
+     * Send the headlines collection to the wearable (via serialization) and finish the sync process
+     */
+    private void sendHeadlinesWearableAndFinish(ArrayList<SendHeadline> headlinesToSend) {
+        Intent finishIntent = new Intent(getString(R.string.action_local_sync_finished));
+        finishIntent.putExtra(COMPLETION_SUCCESS_EXTRA, false);
+
+        if (headlinesToSend != null && mApiClient.isConnected() && mConnectedNode != null) {
+            String serializedItems = new Gson().toJson(headlinesToSend);
+
+            PendingResult<MessageApi.SendMessageResult> msgResult = Wearable.MessageApi.sendMessage(mApiClient, mConnectedNode.getId(), "/feed", serializedItems.getBytes());
+            finishIntent.putExtra(COMPLETION_SUCCESS_EXTRA, true);
+        }
+
+        sendBroadcast(finishIntent);
     }
 
     /**
