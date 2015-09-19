@@ -38,7 +38,9 @@ Riasel/ - Same for Riasel
 
 ## Contributing
 
-There's lots of potential features to implement, and I'd love the community's help! Feel free to fork and make pull requests, but please try to follow the app's coding conventions. If you'd like ideas for what could be implemented, check out the [issues](https://github.com/creativedrewy/WeaRSS/issues). Some enhancement ideas are documented there.
+There's lots of potential features to implement, and I'd love the community's help! Feel free to fork and make pull requests, but please try to follow the app's coding conventions.
+
+If you'd like ideas for what could be implemented, check out the [issues](https://github.com/creativedrewy/WeaRSS/issues). Some enhancement ideas are documented there. Please comment on the relevant issue if you decide to start working on it. Thanks!
 
 License
 --------
