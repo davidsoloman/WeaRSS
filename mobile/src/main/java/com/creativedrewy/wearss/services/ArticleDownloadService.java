@@ -61,7 +61,7 @@ public class ArticleDownloadService {
         String cleanedMarkup = cleanArticleMarkup(srcArticleMarkup);
 
         Renderer renderer = new Source(cleanedMarkup).getRenderer();
-        renderer.setMaxLineLength(150);
+        renderer.setMaxLineLength(300);
         renderer.setIncludeHyperlinkURLs(false);
         renderer.setIncludeAlternateText(false);
         renderer.setHRLineLength(8);
@@ -78,6 +78,7 @@ public class ArticleDownloadService {
         OutputDocument outputDocument = new OutputDocument(sourceDom);
         List<Element> allElements = sourceDom.getAllElements();
 
+        //NOTE: Getting rid of list elements which will get rid of most nav items. In-article lists will be removed but that's prolly okay.
         List<String> elementsToRemove = Arrays.asList(HTMLElementName.LI, HTMLElementName.OL, HTMLElementName.UL);
         for (Element element : allElements) {
             if (elementsToRemove.contains(element.getName())) {
