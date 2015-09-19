@@ -5,19 +5,17 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.util.Xml;
 
 import com.axelby.riasel.Feed;
 import com.axelby.riasel.FeedItem;
-import com.axelby.riasel.FeedParser;
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 import com.creativedrewy.wearss.R;
 import com.creativedrewy.wearss.models.WearFeedEntry;
+import com.creativedrewy.wearss.services.ArticleDownloadService;
 import com.creativedrewy.wearss.wearable.SendHeadline;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
@@ -25,10 +23,7 @@ import com.google.android.gms.wearable.Wearable;
 import com.google.gson.Gson;
 
 import org.jsoup.Jsoup;
-import org.xmlpull.v1.XmlPullParser;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -39,7 +34,6 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -130,17 +124,36 @@ public class RefreshHeadlinesService extends WakefulIntentService
             if (sendHeadlines.size() > 0) {
                 Collections.sort(sendHeadlines, new SendHeadlineComparator());
 
-                String serializedItems = new Gson().toJson(sendHeadlines);
-                if (mApiClient.isConnected() && mConnectedNode != null) {
-                    PendingResult<MessageApi.SendMessageResult> msgResult = Wearable.MessageApi.sendMessage(mApiClient, mConnectedNode.getId(), "/feed", serializedItems.getBytes());
-                    finishIntent.putExtra(COMPLETION_SUCCESS_EXTRA, true);
+                ArticleDownloadService downloader = new ArticleDownloadService();
+                ArrayList<Observable<Boolean>> articleDL = new ArrayList<>();
+
+                for (final SendHeadline headline : sendHeadlines) {
+                    articleDL.add(downloader.downloadAndTrimArticle(headline));
                 }
+
+                Observable.merge(articleDL)
+                        //.subscribeOn(Schedulers.io())
+                        //.observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(status -> {
+                            Log.v("WeaRSS", "Going through each item!");
+                        }, throwable -> {
+                            Log.v("WeaRSS", "Awww, error");
+                        }, () -> {
+                            ArrayList<SendHeadline> result = sendHeadlines;
+                            Log.v("WeaRSS", "Done!");
+
+                            String serializedItems = new Gson().toJson(sendHeadlines);
+                            if (mApiClient.isConnected() && mConnectedNode != null) {
+                                PendingResult<MessageApi.SendMessageResult> msgResult = Wearable.MessageApi.sendMessage(mApiClient, mConnectedNode.getId(), "/feed", serializedItems.getBytes());
+                                finishIntent.putExtra(COMPLETION_SUCCESS_EXTRA, true);
+                            }
+
+                            sendBroadcast(finishIntent);
+                        });
             }
         } catch (Exception e) {
             Log.e(getString(R.string.app_name), "::: General error during headline sync :::", e);
         }
-
-        sendBroadcast(finishIntent);
     }
 
     /**

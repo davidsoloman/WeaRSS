@@ -1,5 +1,6 @@
 package com.creativedrewy.wearss.services;
 
+import com.creativedrewy.wearss.wearable.SendHeadline;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -18,9 +19,9 @@ public class ArticleDownloadService {
     /**
      * Download the full html contents of the article at the provided URL
      */
-    public Observable<String> downloadAndTrimArticle(String url) {
-        return Observable.create((Observable.OnSubscribe<String>) subscriber -> {
-            Request request = new Request.Builder().url(url).build();
+    public Observable<Boolean> downloadAndTrimArticle(SendHeadline headline) {
+        return Observable.create((Observable.OnSubscribe<Boolean>) subscriber -> {
+            Request request = new Request.Builder().url(headline.getArticleUrl()).build();
 
             new OkHttpClient().newCall(request).enqueue(new Callback() {
                 @Override
@@ -38,9 +39,11 @@ public class ArticleDownloadService {
                     renderer.setIncludeAlternateText(false);
                     renderer.setHRLineLength(8);
                     renderer.setListIndentSize(0);
-                    String trimmedArticle = renderer.toString();
 
-                    subscriber.onNext(trimmedArticle);
+                    String trimmedArticle = renderer.toString();
+                    headline.setArticleText(trimmedArticle);
+
+                    subscriber.onNext(true);
                     subscriber.onCompleted();
                 }
             });
