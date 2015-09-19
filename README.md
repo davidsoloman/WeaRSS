@@ -24,19 +24,20 @@ You can get the latest version on <a href="https://play.google.com/store/apps/de
 ## Building
 
 1. Clone this Repo
-2. In the same parent directory where you cloned WeaRSS, clone my fork of [Riasel](https://github.com/creativedrewy/Riasel).
+2. In the same parent directory where you cloned WeaRSS, clone my fork of [Riasel](https://github.com/creativedrewy/Riasel). See the example directory listing just below.
+3. Open the build.gradle for WeaRSS in Android Studio.
+4. Have fun!
+
 ```
 :: A directory listing in the parent directory ::
 
 WeaRSS/ - Git created this directory on clone; all repo files in here
 Riasel/ - Same for Riasel
 ```
-3. Open the build.gradle for WeaRSS in Android Studio.
-4. Have fun!
 
 ## Contributing
 
-There's lots of
+There's lots of possible features to implement, and I'd love the community's help!
 
 License
 --------
