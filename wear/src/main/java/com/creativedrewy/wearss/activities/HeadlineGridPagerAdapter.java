@@ -2,12 +2,9 @@ package com.creativedrewy.wearss.activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.support.wearable.view.CardFragment;
 import android.support.wearable.view.FragmentGridPagerAdapter;
-import android.support.wearable.view.ImageReference;
-import android.util.Log;
-import android.view.Gravity;
 
+import com.creativedrewy.wearss.fragment.ArticleCardFragment;
 import com.creativedrewy.wearss.fragment.OpenOnPhoneFragment;
 import com.creativedrewy.wearss.model.FeedHeadline;
 
@@ -68,10 +65,11 @@ public class HeadlineGridPagerAdapter extends FragmentGridPagerAdapter {
             String timeFromNow = currentHeadline.hasPubDate() ? new PrettyTime().format(currentHeadline.getPostDate()) : "No publish date";
             String headlineWithDate = String.format("-- %s --\n%s\n\n%s", timeFromNow, currentHeadline.getHeadline(), currentHeadline.getArticleText());
 
-            returnFragment = CardFragment.create(currentHeadline.getSourceHost(), headlineWithDate);
-            ((CardFragment)returnFragment).setCardGravity(Gravity.BOTTOM);
-            ((CardFragment)returnFragment).setExpansionEnabled(true);
-            ((CardFragment)returnFragment).setExpansionDirection(CardFragment.EXPAND_DOWN);
+//            returnFragment = CardFragment.create(currentHeadline.getSourceHost(), headlineWithDate);
+//            ((CardFragment)returnFragment).setCardGravity(Gravity.BOTTOM);
+//            ((CardFragment)returnFragment).setExpansionEnabled(true);
+//            ((CardFragment)returnFragment).setExpansionDirection(CardFragment.EXPAND_DOWN);
+            returnFragment = ArticleCardFragment.newInstance("hi", "How are you");
         } else if (row == 1) {
             returnFragment = OpenOnPhoneFragment.newInstance(mHeadlines.get(col));
         }

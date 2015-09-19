@@ -124,6 +124,7 @@ public class RefreshHeadlinesService extends WakefulIntentService
             if (sendHeadlines.size() > 0) {
                 Collections.sort(sendHeadlines, new SendHeadlineComparator());
 
+                //TODO: Come back and refactor this to make it not so bulky and long
                 ArticleDownloadService downloader = new ArticleDownloadService();
                 ArrayList<Observable<Boolean>> articleDL = new ArrayList<>();
 
@@ -132,12 +133,11 @@ public class RefreshHeadlinesService extends WakefulIntentService
                 }
 
                 Observable.merge(articleDL)
-                        //.subscribeOn(Schedulers.io())
-                        //.observeOn(AndroidSchedulers.mainThread())
                         .subscribe(status -> {
                             Log.v("WeaRSS", "Going through each item!");
                         }, throwable -> {
                             Log.v("WeaRSS", "Awww, error");
+                            sendBroadcast(finishIntent);
                         }, () -> {
                             ArrayList<SendHeadline> result = sendHeadlines;
                             Log.v("WeaRSS", "Done!");

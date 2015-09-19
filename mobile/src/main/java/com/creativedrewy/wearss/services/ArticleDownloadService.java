@@ -17,7 +17,8 @@ import rx.Observable;
 public class ArticleDownloadService {
 
     /**
-     * Download the full html contents of the article at the provided URL
+     * Download the full html contents of the article at the provided URL and save it back
+     * into the headline object
      */
     public Observable<Boolean> downloadAndTrimArticle(SendHeadline headline) {
         return Observable.create((Observable.OnSubscribe<Boolean>) subscriber -> {
