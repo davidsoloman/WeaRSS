@@ -29,7 +29,7 @@ You can get the latest version on <a href="https://play.google.com/store/apps/de
 4. Open the build.gradle for WeaRSS in Android Studio.
 5. Have fun!
 
-```bash
+```
 :: A directory listing in the parent directory ::
 
 WeaRSS/ - Git created this directory on clone; all repo files in here
@@ -38,7 +38,7 @@ Riasel/ - Same for Riasel
 
 ## Contributing
 
-There's lots of potential features to implement, and I'd love the community's help!
+There's lots of potential features to implement, and I'd love the community's help! Feel free to fork and make pull requests, but please try to follow the app's coding conventions. If you'd like ideas for what could be implemented, check out the [issues](https://github.com/creativedrewy/WeaRSS/issues). Some enhancement ideas are documented there.
 
 License
 --------
