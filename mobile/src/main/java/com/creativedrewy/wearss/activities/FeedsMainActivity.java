@@ -23,6 +23,9 @@ import com.creativedrewy.wearss.fragments.ReadListFragment;
 import com.creativedrewy.wearss.services.ArticleDownloadService;
 import com.creativedrewy.wearss.services.PhoneFromWearListenerService;
 
+import net.htmlparser.jericho.Renderer;
+import net.htmlparser.jericho.Source;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import rx.android.schedulers.AndroidSchedulers;
@@ -104,6 +107,16 @@ public class FeedsMainActivity extends FragmentActivity {
                     .subscribe(articleText -> {
                         Log.v("MyTag", "You got the article");
                         int sizey = articleText.length();
+
+                        Renderer renderer = new Source(articleText).getRenderer();
+                        renderer.setMaxLineLength(150);
+                        renderer.setIncludeHyperlinkURLs(false);
+                        renderer.setIncludeAlternateText(false);
+                        renderer.setHRLineLength(8);
+                        renderer.setListIndentSize(0);
+
+                        String output = renderer.toString();
+                        int size = output.length();
                     }, throwable -> {
                         Log.e("MyTag", "There was an error, yo: " + throwable.getMessage());
                     });
