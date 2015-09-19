@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -19,10 +20,13 @@ import com.creativedrewy.wearss.R;
 import com.creativedrewy.wearss.adapters.MainActivityPagerAdapter;
 import com.creativedrewy.wearss.feedservice.SyncAlarmListenerService;
 import com.creativedrewy.wearss.fragments.ReadListFragment;
+import com.creativedrewy.wearss.services.ArticleDownloadService;
 import com.creativedrewy.wearss.services.PhoneFromWearListenerService;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Landing activity for entire app; list out the user's feeds on the feeds fragment
@@ -90,8 +94,20 @@ public class FeedsMainActivity extends FragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_add_feed) {
-            Intent intent = new Intent(this, AddFeedActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(this, AddFeedActivity.class);
+            //startActivity(intent);
+
+            String url = "http://www.engadget.com/2015/04/05/optical-nanotech-gas-sensor/";
+            ArticleDownloadService.downloadArticle(url)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(articleText -> {
+                        Log.v("MyTag", "You got the article");
+                        int sizey = articleText.length();
+                    }, throwable -> {
+                        Log.e("MyTag", "There was an error, yo: " + throwable.getMessage());
+                    });
+
         } else if (id == R.id.action_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
