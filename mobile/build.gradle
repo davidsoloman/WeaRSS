@@ -55,6 +55,7 @@ dependencies {
     compile 'com.android.support:support-v4:23.0.0'
     compile 'com.commonsware.cwac:wakeful:1.0.+'
     compile 'org.jsoup:jsoup:1.8.1'
+    compile 'net.htmlparser.jericho:jericho-html:3.3' //TODO: Add to license diag
     compile('de.psdev.licensesdialog:licensesdialog:1.6.0') {
         exclude module: 'support-v4'
     }
