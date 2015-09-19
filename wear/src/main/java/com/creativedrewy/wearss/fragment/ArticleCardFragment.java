@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.creativedrewy.wearss.R;
 
 /**
- *
+ * Card fragment that shows an individual headline and short/long description
  */
 public class ArticleCardFragment extends Fragment {
     private static final String TITLE_EXTRA = "param1";
@@ -47,17 +47,17 @@ public class ArticleCardFragment extends Fragment {
     }
 
     /**
-     *
+     * Create a new instance of the article view, passing in the top headline and the contents
+     * that go underneath
      */
-    public static ArticleCardFragment newInstance(String param1, String param2) {
+    public static ArticleCardFragment newInstance(String title, String remainingContent) {
         ArticleCardFragment fragment = new ArticleCardFragment();
         Bundle args = new Bundle();
 
-        args.putString(TITLE_EXTRA, param1);
-        args.putString(DESC_EXTRA, param2);
+        args.putString(TITLE_EXTRA, title);
+        args.putString(DESC_EXTRA, remainingContent);
         fragment.setArguments(args);
 
         return fragment;
     }
-
 }

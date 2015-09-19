@@ -68,8 +68,9 @@ public class HeadlineGridPagerAdapter extends FragmentGridPagerAdapter {
 //            returnFragment = CardFragment.create(currentHeadline.getSourceHost(), headlineWithDate);
 //            ((CardFragment)returnFragment).setCardGravity(Gravity.BOTTOM);
 //            ((CardFragment)returnFragment).setExpansionEnabled(true);
+//            ((CardFragment)returnFragment).setExpansionFactor(250);
 //            ((CardFragment)returnFragment).setExpansionDirection(CardFragment.EXPAND_DOWN);
-            returnFragment = ArticleCardFragment.newInstance("Title", currentHeadline.getArticleText());
+            returnFragment = ArticleCardFragment.newInstance(currentHeadline.getSourceHost(), headlineWithDate);
         } else if (row == 1) {
             returnFragment = OpenOnPhoneFragment.newInstance(mHeadlines.get(col));
         }
