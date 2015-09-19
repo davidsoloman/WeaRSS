@@ -12,6 +12,20 @@ Your RSS News Feeds on Android Wear! Get news headlines pushed right to your wri
 - Share to a specific app: send articles from the Read List to a specific app of your choosing like Pocket or Instapaper!
 - Skip the read list entirely: select your app and share articles to it right from your wearable!
 
+<img src="readme/wear_screenshot_1.png" width="25%" />
+<img src="readme/wear_screenshot_2.png" width="25%" />
+<img src="readme/app_screenshot_1.png" width="25%" />
+<img src="readme/app_screenshot_2.png" width="25%" />
+
+## Download
+
+You can get the latest version on [Google Play](https://play.google.com/store/apps/details?id=com.creativedrewy.wearss).
+
+## Build the App
+
+1. Step 2
+2. Step 2
+
 License
 --------
 
