@@ -2,6 +2,7 @@ package com.creativedrewy.wearss.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.wearable.view.CardFrame;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,9 @@ public class ArticleCardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_article_card, container, false);
+
+        CardFrame frame = (CardFrame) view.findViewById(R.id.main_frame);
+        frame.setExpansionFactor(200);
 
         TextView titleTextView = (TextView) view.findViewById(R.id.article_title_textview);
         TextView descTextView = (TextView) view.findViewById(R.id.article_desc_textview);
