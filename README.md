@@ -2,7 +2,7 @@
 
 Your RSS News Feeds on Android Wear! Get news headlines pushed right to your wrist. Send to your phone to read later.
 
-## Some of the Features:
+## Some of the Cool Features:
 
 - Follow any number of RSS/Atom feeds.
 - Headlines and a brief description will get sent to your device - you'll see the most recent headlines first.
@@ -12,19 +12,31 @@ Your RSS News Feeds on Android Wear! Get news headlines pushed right to your wri
 - Share to a specific app: send articles from the Read List to a specific app of your choosing like Pocket or Instapaper!
 - Skip the read list entirely: select your app and share articles to it right from your wearable!
 
-<img src="readme/wear_screenshot_1.png" width="25%" />
-<img src="readme/wear_screenshot_2.png" width="25%" />
-<img src="readme/app_screenshot_1.png" width="25%" />
-<img src="readme/app_screenshot_2.png" width="25%" />
+<img src="readme/wear_screenshot_1.png" width="20%" />
+<img src="readme/wear_screenshot_2.png" width="20%" />
+<img src="readme/app_screenshot_1.png" width="20%" />
+<img src="readme/app_screenshot_2.png" width="20%" />
 
 ## Download
 
-You can get the latest version on [Google Play](https://play.google.com/store/apps/details?id=com.creativedrewy.wearss).
+You can get the latest version on <a href="https://play.google.com/store/apps/details?id=com.creativedrewy.wearss" target="_blank">Google Play</a>.
 
-## Build the App
+## Building
 
-1. Step 2
-2. Step 2
+1. Clone this Repo
+2. In the same parent directory where you cloned WeaRSS, clone my fork of [Riasel](https://github.com/creativedrewy/Riasel).
+```
+:: A directory listing in the parent directory ::
+
+WeaRSS/ - Git created this directory on clone; all repo files in here
+Riasel/ - Same for Riasel
+```
+3. Open the build.gradle for WeaRSS in Android Studio.
+4. Have fun!
+
+## Contributing
+
+There's lots of
 
 License
 --------
